@@ -1,8 +1,8 @@
 'user strict'
 
-import fixtures from '../fixtures'
+const fixtures = require('../fixtures')
 
-export default class Db {
+module.exports = class Db {
   connect () {
     return Promise.resolve(true)
   }

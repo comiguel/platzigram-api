@@ -1,13 +1,13 @@
 'use strict'
 
-const { send, json } = require('micro')
-const HttpHash = require('http-hash')
-const Db = require('platzigram-db')
-const config = require('./config')
-const utils = require('./lib/utils')
-const DbStub = require('./test/stub/db')
+import { send, json } from 'micro'
+import HttpHash from 'http-hash'
+import Db from 'platzigram-db'
+import config from './config'
+import utils from './lib/utils'
+import DbStub from './test/stub/db'
 
-const env = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : 'production'
+const env = process.env.NODE_ENV.trim() || 'production'
 let db = new Db(config.db)
 
 if (env === 'test') {
@@ -34,7 +34,7 @@ hash.set('POST /', async function authenticate (req, res, params) {
   send(res, 200, token)
 })
 
-module.exports = async function main (req, res) {
+export default async function main (req, res) {
   let { method, url } = req
   let match = hash.get(`${method.toUpperCase()} ${url}`)
 
