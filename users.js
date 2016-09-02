@@ -3,6 +3,7 @@
 const { send, json } = require('micro')
 const HttpHash = require('http-hash')
 const Db = require('platzigram-db')
+const gravatar = require('gravatar')
 const config = require('./config')
 const DbStub = require('./test/stub/db')
 
@@ -31,6 +32,11 @@ hash.set('GET /:username', async function getUser (req, res, params) {
   let username = params.username
   await db.connect()
   let user = await db.getUser(username)
+  user.avatar = gravatar.url(user.email)
+
+  let images = await db.getImagesByUser(username)
+  user.pictures = images
+  
   delete user.email
   delete user.password
   await db.disconnect()
